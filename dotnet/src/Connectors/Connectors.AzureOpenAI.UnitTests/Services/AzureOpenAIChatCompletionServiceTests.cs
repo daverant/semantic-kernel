@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 
 using System;
+using System.ClientModel;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -82,7 +83,7 @@ public sealed class AzureOpenAIChatCompletionServiceTests : IDisposable
     public void ConstructorWithOpenAIClientWorksCorrectly(bool includeLoggerFactory)
     {
         // Arrange & Act
-        var client = new AzureOpenAIClient(new Uri("http://host"), "key");
+        var client = new AzureOpenAIClient(new Uri("http://host"), new ApiKeyCredential("apikey"));
         var service = includeLoggerFactory ?
             new AzureOpenAIChatCompletionService("deployment", client, "model-id", loggerFactory: this._mockLoggerFactory.Object) :
             new AzureOpenAIChatCompletionService("deployment", client, "model-id");
