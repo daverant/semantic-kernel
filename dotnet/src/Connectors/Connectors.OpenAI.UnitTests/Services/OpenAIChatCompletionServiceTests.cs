@@ -830,7 +830,7 @@ public sealed class OpenAIChatCompletionServiceTests : IDisposable
                 format = JsonSerializer.Deserialize<JsonElement>(formatValue);
                 break;
             case "ChatResponseFormat":
-                format = formatValue == "text" ? ChatResponseFormat.Text : ChatResponseFormat.JsonObject;
+                format = formatValue == "text" ? ChatResponseFormat.CreateTextFormat() : ChatResponseFormat.CreateJsonObjectFormat();
                 break;
         }
 
@@ -1040,7 +1040,7 @@ public sealed class OpenAIChatCompletionServiceTests : IDisposable
     {
         // Arrange
         object responseFormat = typedResponseFormat ? typeof(MathReasoning) : ChatResponseFormat.CreateJsonSchemaFormat(
-            name: "MathReasoning",
+            jsonSchemaFormatName: "MathReasoning",
             jsonSchema: BinaryData.FromString("""
                 {
                     "type": "object",
@@ -1063,7 +1063,7 @@ public sealed class OpenAIChatCompletionServiceTests : IDisposable
                     "additionalProperties": false
                 }
                 """),
-            strictSchemaEnabled: true);
+            jsonSchemaIsStrict: true);
 
         var executionSettings = new OpenAIPromptExecutionSettings { ResponseFormat = responseFormat };
 
